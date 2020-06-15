@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum", "Forum.csproj", "{CC27BE2B-C67E-4A97-BEE3-48F29895AD5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrimerForum", "CrimerForum.csproj", "{CC27BE2B-C67E-4A97-BEE3-48F29895AD5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrimerForum.Data", "..\Models\CrimerForum.Data.csproj", "{37AE8059-E72D-4A14-AFB9-7848810D3D6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrimerForum.Data", "..\Models\CrimerForum.Data.csproj", "{37AE8059-E72D-4A14-AFB9-7848810D3D6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrimerForum.Services", "..\Services\CrimerForum.Services.csproj", "{3594ED1A-9F4A-4FF1-9219-104E6629596E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrimerForum.Services", "..\Services\CrimerForum.Services.csproj", "{3594ED1A-9F4A-4FF1-9219-104E6629596E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

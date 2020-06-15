@@ -3,6 +3,7 @@ using CrimerForum.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Services
@@ -39,7 +40,11 @@ namespace Services
 
         public Forum GetById(int id)
         {
-            throw new NotImplementedException();
+            var forum = _context.Forums.Where(forum => forum.Id == id)
+                .Include(forum => forum.Posts).ThenInclude(post => post.Author)
+                .Include(forum => forum.Posts).ThenInclude(post => post.Replies).ThenInclude(reply => reply.Author)
+                .FirstOrDefault();
+            return forum;
         }
 
         public Task UpdateDescription(int forumId, string newDescription)

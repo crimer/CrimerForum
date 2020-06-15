@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ForumService.cs~RFcb6d676.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Models\CrimerForum.Data.csproj" />
   </ItemGroup>
 
