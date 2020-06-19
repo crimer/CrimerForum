@@ -1,8 +1,35 @@
-﻿@model CrimerForum.VM.Forum.ForumVM
+﻿@model CrimerForum.VM.Forum.ForumTopicVM
 @{
-    ViewData["Title"] = @Model.Name;
+    ViewData["Title"] = @Model.Forum.Name;
 }
 <div>
-    <h1>@Model.Name</h1>
-    <p>@Model.Description</p>
+    <h1>@Model.Forum.Name</h1>
+    <p>@Model.Forum.Description</p>
+    <img src="images/@Model.Forum.ImageUrl" alt="@Model.Forum.Name - forum "/>
+    <br />
+    @if (!Model.Posts.Any())
+    {
+        <div>
+            <h3>Похоже что на эту тему нет постов</h3>
+            <p>Так почему бы не 
+                <a asp-controller="Post" asp-action="Create" asp-route-id="@Model.Forum.Id">
+                    создать
+                </a>?
+            </p>
+        </div>
+    }
+    else
+    {
+        <ul class="list-group">
+            @foreach (var post in Model.Posts)
+            {
+                <li class="list-group-item">
+                    <a asp-controller="Post" asp-action="Index" asp-route-id="@post.Id">@post.Title</a>
+                    <p>@post.DatePosted</p>
+                    <p>@post.RepliesCount</p>
+                </li>
+            }
+
+        </ul>
+    }
 </div>

@@ -1,8 +1,5 @@
 ﻿using CrimerForum.Data.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CrimerForum.Data
@@ -14,6 +11,8 @@ namespace CrimerForum.Data
         IEnumerable<Post> GetPostsByForum(int forumId);
         IEnumerable<Post> GetFilteredPosts(string searchQuery);
         Task AddPost(Post post, int forumId);
-        Task AddPost(Post post, int forumId);
+        Task DeletePost(int postId);
+        Task EditPostContent(int postId, string newContent);
+        Task AddReply(PostReply reply);
     }
 }
