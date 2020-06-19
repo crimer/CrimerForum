@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using CrimerForum.Data;
-using Services;
+using CrimerForum.Services;
 
 namespace CrimerForum
 {
@@ -33,6 +33,7 @@ namespace CrimerForum
             services.AddRazorPages();
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddScoped<IForum, ForumService>();
+            services.AddScoped<IPost, PostService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

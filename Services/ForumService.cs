@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Services
+namespace CrimerForum.Services
 {
     public class ForumService : IForum
     {

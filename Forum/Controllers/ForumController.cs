@@ -9,10 +9,12 @@ namespace CrimerForum.Controllers
     public class ForumController : Controller
     {
         private readonly IForum _forumService;
+        private readonly IPost _postService;
 
-        public ForumController(IForum forumService)
+        public ForumController(IForum forumService, IPost postService)
         {
             _forumService = forumService;
+            _postService = postService;
         }
 
         public IActionResult Index()
@@ -31,6 +33,7 @@ namespace CrimerForum.Controllers
         {
             var forum = _forumService.GetById(id);
             ForumVM vm = new ForumVM() { Id = forum.Id, Description = forum.Description, Name = forum.Title };
+
             return View(vm);
         }
     }
