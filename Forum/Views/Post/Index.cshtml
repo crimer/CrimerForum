@@ -1,0 +1,24 @@
+﻿@model CrimerForum.VM.Post.PostIndexVM
+
+<h1>@Model.Title</h1>
+
+<div>
+    Author: @Model.AuthorName (@Model.AuthorRating)
+    Created: @Model.DatePosted
+</div>
+
+@if (Model.Replies.Any())
+{
+    foreach (var reply in Model.Replies)
+    {
+    <div>
+        <div>
+            Author: @reply.AuthorName (@reply.AuthorRating)
+            Created: @reply.Created
+        </div>
+        <div>
+            @reply.RepliesContent
+        </div>
+    </div>
+    }
+}

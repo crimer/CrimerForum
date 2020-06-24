@@ -44,7 +44,11 @@ namespace CrimerForum.Services
 
         public Post GetById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Posts.Where(p => p.Id == id)
+                .Include(p => p.Author)
+                .Include(p => p.Replies).ThenInclude(r => r.Author)
+                .Include(p => p.Forum)
+                .FirstOrDefault();
         }
 
         public IEnumerable<Post> GetFilteredPosts(string searchQuery)
