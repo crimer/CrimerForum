@@ -10,7 +10,7 @@ namespace CrimerForum.VM.Post
         public string Content { get; set; }
         public int AuthorRating { get; set; }
         public string AuthorId { get; set; }
-        public DateTime DatePosted { get; set; }
+        public DateTime CreatedAt { get; set; }
         public int RepliesCount { get; set; }
         public ForumVM Forum { get; set; }
     }

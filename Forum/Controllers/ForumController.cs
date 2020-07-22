@@ -25,7 +25,7 @@ namespace CrimerForum.Controllers
                 .Select(forum => new ForumVM
                 {
                     Id = forum.Id,
-                    Name = forum.Title,
+                    Title = forum.Title,
                     Description = forum.Description
                 });
             var vm = new ForumIndexVM() { ForumList = forums };
@@ -44,7 +44,7 @@ namespace CrimerForum.Controllers
                 Title = p.Title,
                 AuthorId = p.Author.Id,
                 AuthorRating = p.Author.Rating,
-                DatePosted = p.CreatedAt,
+                CreatedAt = p.CreatedAt,
                 RepliesCount = p.Replies.Count(),
                 Forum = BuildForumModel(p)
             });
@@ -63,7 +63,7 @@ namespace CrimerForum.Controllers
             return new ForumVM()
             {
                 Id = forum.Id,
-                Name = forum.Title,
+                Title = forum.Title,
                 Description = forum.Description,
                 ImageUrl = forum.ImageUrl
             };

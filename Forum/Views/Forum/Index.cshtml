@@ -8,7 +8,7 @@
     @foreach (var forum in Model.ForumList)
     {
         <li class="list-group-item">
-            <a asp-controller="Forum" asp-action="Topic" asp-route-id="@forum.Id">@forum.Name</a>
+            <a asp-controller="Forum" asp-action="Topic" asp-route-id="@forum.Id">@forum.Title</a>
             <p>@forum.Description</p>
         </li>
     }

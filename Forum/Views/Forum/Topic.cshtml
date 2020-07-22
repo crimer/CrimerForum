@@ -1,20 +1,22 @@
 ﻿@model CrimerForum.VM.Forum.ForumTopicVM
 @{
-    ViewData["Title"] = @Model.Forum.Name;
+    ViewData["Title"] = @Model.Forum.Title;
 }
 <div>
-    <h1>@Model.Forum.Name</h1>
+    <h1>@Model.Forum.Title</h1>
     <p>@Model.Forum.Description</p>
-    <img src="images/@Model.Forum.ImageUrl" alt="@Model.Forum.Name - forum "/>
+    <img src="images/@Model.Forum.ImageUrl" alt="@Model.Forum.Title - forum " />
+    <br />
+    <a class="btn btn-success" asp-action="Create" asp-controller="Post" asp-route-id="@Model.Forum.Id">
+        Создать новый пост
+    </a>
     <br />
     @if (!Model.Posts.Any())
     {
         <div>
             <h3>Похоже что на эту тему нет постов</h3>
-            <p>Так почему бы не 
-                <a asp-controller="Post" asp-action="Create" asp-route-id="@Model.Forum.Id">
-                    создать
-                </a>?
+            <p>
+                Так почему бы не создать?
             </p>
         </div>
     }
@@ -25,7 +27,7 @@
             {
                 <li class="list-group-item">
                     <a asp-controller="Post" asp-action="Index" asp-route-id="@post.Id">@post.Title</a>
-                    <p>@post.DatePosted</p>
+                    <p>@post.CreatedAt</p>
                     <p>@post.RepliesCount</p>
                 </li>
             }

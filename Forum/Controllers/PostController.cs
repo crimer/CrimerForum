@@ -3,20 +3,26 @@ using CrimerForum.Data;
 using CrimerForum.Data.Models;
 using CrimerForum.VM.Post;
 using CrimerForum.VM.Reply;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CrimerForum.Controllers
 {
     public class PostController : Controller
     {
         private readonly IPost _postService;
+        private readonly IForum _forumService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public PostController(IPost postService)
+        public PostController(IPost postService, IForum forumService, UserManager<ApplicationUser> userManager)
         {
             _postService = postService;
+            _forumService = forumService;
+            _userManager = userManager;
         }
 
         public IActionResult Index(int id)
@@ -51,14 +57,41 @@ namespace CrimerForum.Controllers
                 RepliesContent = r.Content
             });
         }
-        public IActionResult Create(PostVM postVM)
+        [HttpGet]
+        public IActionResult Create(int id)
         {
-            return View();
+            var forum = _forumService.GetById(id);
+            var model = new CreatePostVM()
+            {
+                ForumName = forum.Title,
+                ForumId = forum.Id,
+                ForumImageUrl = forum.ImageUrl,
+                AuthorName = User.Identity.Name
+            };
+            return View(model);
         }
         [HttpPost]
-        public IActionResult Create(PostVM postVM)
+        public async Task<IActionResult> CreatePost(CreatePostVM createPostVM)
         {
-            return View();
+            string userId = _userManager.GetUserId(User);
+            var user = await _userManager.FindByIdAsync(userId);
+
+            var post = BuildPost(createPostVM, user);
+            await _postService.AddPost(post);
+            return RedirectToAction("Index","Post", new { id = post.Id });
+        }
+
+        private Post BuildPost(CreatePostVM createPostVM, ApplicationUser user)
+        {
+            var forum = _forumService.GetById(createPostVM.ForumId);
+            return new Post
+            {
+                Title = createPostVM.Title,
+                Content = createPostVM.Content,
+                CreatedAt = DateTime.Now,
+                Author = user,
+                Forum = forum
+            };
         }
     }
 }

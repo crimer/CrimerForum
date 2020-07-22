@@ -17,9 +17,10 @@ namespace CrimerForum.Services
             _context = context;
         }
 
-        public Task AddPost(Post post, int forumId)
+        public async Task AddPost(Post post)
         {
-            throw new NotImplementedException();
+            _context.Posts.Add(post);
+            await _context.SaveChangesAsync();
         }
 
         public Task AddReply(PostReply reply)
