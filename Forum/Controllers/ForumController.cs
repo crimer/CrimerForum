@@ -43,6 +43,7 @@ namespace CrimerForum.Controllers
                 Id = p.Id,
                 Title = p.Title,
                 AuthorId = p.Author.Id,
+                AuthorName = p.Author.UserName,
                 AuthorRating = p.Author.Rating,
                 CreatedAt = p.CreatedAt,
                 RepliesCount = p.Replies.Count(),

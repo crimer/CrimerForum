@@ -10,6 +10,7 @@ namespace CrimerForum.Data
         IEnumerable<Post> GetAllPosts();
         IEnumerable<Post> GetPostsByForum(int forumId);
         IEnumerable<Post> GetFilteredPosts(string searchQuery);
+        IEnumerable<Post> GetLatestPosts(int count);
         Task AddPost(Post post);
         Task DeletePost(int postId);
         Task EditPostContent(int postId, string newContent);

@@ -1,8 +1,58 @@
-﻿@{
+﻿@model CrimerForum.VM.Home.HomeIndexVM
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container body-content">
+    <div class="row frontSplashScreen">
+        <div class="col-md-6 frontPageLearn">
+            <div class="frontPageHeading">
+                <p>Learn, Collaborate, Share Knowlage</p>
+            </div>
+            <p class="frontPageSubHeading>
+                Crimer Forum best forum for coding in the world
+            </p>
+            <div>
+                
+            </div>
+        </div>
+        <div class="col-md-6"></div>
+    </div>
+    <div class="row frontPageContent">
+        <h3 id="latestPosts">Latest Posts</h3>
+        <table class="table table-hover" id="latestPostsTable">
+            <tbody>
+                @foreach (var post in Model.LatestPosts)
+                {
+                    <tr>
+                        <td>
+                            <div class="forumLogo" style="background-image:url(@post.Forum.ImageUrl); background-size: 100%;"></div>
+                            <p>@post.Title</p>
+                            <div class="postTitle">
+                                <a asp-controller="Post" asp-action="Index" asp-route-id="@post.Id"></a>
+                            </div>
+                            <div class="postSubtTtle">
+                                @if (post.RepliesCount == 1)
+                                {
+                                    <span>@post.RepliesCount Reply</span>
+                                }
+                                else if (post.RepliesCount == 0)
+                                {
+                                    <span>No Replies</span>
+                                }
+                                else
+                                {
+                                    <span>@post.RepliesCount Replies</span>
+                                }
+                                <span class="userProfile">
+                                    <a asp-controller="Profile" asp-action="Detail" asp-route-id="@post.AuthorId">@post.AuthorName</a>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

@@ -5,7 +5,10 @@
 <div>
     <h1>@Model.Forum.Title</h1>
     <p>@Model.Forum.Description</p>
-    <img src="images/@Model.Forum.ImageUrl" alt="@Model.Forum.Title - forum " />
+    <div class="image-wrapper">
+        <img src="/images/@Model.Forum.ImageUrl" alt="@Model.Forum.Title - forum " />
+
+    </div>
     <br />
     <a class="btn btn-success" asp-action="Create" asp-controller="Post" asp-route-id="@Model.Forum.Id">
         Создать новый пост
@@ -22,16 +25,21 @@
     }
     else
     {
-        <ul class="list-group">
-            @foreach (var post in Model.Posts)
-            {
-                <li class="list-group-item">
-                    <a asp-controller="Post" asp-action="Index" asp-route-id="@post.Id">@post.Title</a>
-                    <p>@post.CreatedAt</p>
-                    <p>@post.RepliesCount</p>
-                </li>
-            }
+        <div class="topicsList">
+            <ul class="list-group">
+                @foreach (var post in Model.Posts)
+                {
+                    <li class="list-group-item">
+                        <h2>
+                            <a asp-controller="Post" asp-action="Index" asp-route-id="@post.Id">@post.Title</a>
+                        </h2>
+                        <p>Автор: @post.AuthorName</p>
+                        <p>Дата создания: @post.CreatedAt</p>
+                        <p>Кометнарии: @post.RepliesCount</p>
+                    </li>
+                }
 
-        </ul>
+            </ul>
+        </div>
     }
 </div>

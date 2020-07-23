@@ -40,7 +40,9 @@ namespace CrimerForum.Services
 
         public IEnumerable<Post> GetAllPosts()
         {
-            throw new NotImplementedException();
+            return _context.Posts.Include(p => p.Author)
+                .Include(p => p.Replies).ThenInclude(r => r.Author)
+                .Include(p => p.Forum);
         }
 
         public Post GetById(int id)
@@ -61,6 +63,11 @@ namespace CrimerForum.Services
         {
             return _context.Forums.Where(f => f.Id == forumId).FirstOrDefault().Posts;
                 
+        }
+
+        public IEnumerable<Post> GetLatestPosts(int count)
+        {
+            return GetAllPosts().OrderByDescending(p => p.CreatedAt).Take(count);
         }
     }
 }
