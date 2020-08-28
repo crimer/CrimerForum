@@ -10,6 +10,7 @@ namespace CrimerForum.VM.Home
     public class HomeIndexVM
     {
         public string SearchQuery { get; set; }
-        public IEnumerable<PostVM> LatestPosts { get; set; }
+        public bool IsEmptySearchResult { get; set; }
+        public IEnumerable<PostVM> Posts { get; set; }
     }
 }

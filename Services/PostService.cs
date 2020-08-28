@@ -3,6 +3,7 @@ using CrimerForum.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -54,9 +55,19 @@ namespace CrimerForum.Services
                 .FirstOrDefault();
         }
 
+        public IEnumerable<Post> GetFilteredPosts(Forum forum, string searchQuery)
+        {
+
+            return string.IsNullOrEmpty(searchQuery) ? forum.Posts :
+                forum.Posts.Where(post => post.Title.ToLower(CultureInfo.CurrentCulture).Contains(searchQuery) 
+                                          || post.Content.ToLower(CultureInfo.CurrentCulture).Contains(searchQuery));
+
+        }
+
         public IEnumerable<Post> GetFilteredPosts(string searchQuery)
         {
-            throw new NotImplementedException();
+            return GetAllPosts().Where(post => post.Title.ToLower(CultureInfo.CurrentCulture).Contains(searchQuery) 
+                                               || post.Content.ToLower(CultureInfo.CurrentCulture).Contains(searchQuery));
         }
 
         public IEnumerable<Post> GetPostsByForum(int forumId)

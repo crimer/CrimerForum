@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace CrimerForum.Controllers
 {
@@ -17,18 +18,19 @@ namespace CrimerForum.Controllers
         private readonly IPost _postService;
         private readonly IForum _forumService;
         private readonly UserManager<ApplicationUser> _userManager;
-
-        public PostController(IPost postService, IForum forumService, UserManager<ApplicationUser> userManager)
+        private readonly IMapper _mapper;
+        public PostController(IPost postService, IForum forumService, UserManager<ApplicationUser> userManager, IMapper mapper)
         {
             _postService = postService;
             _forumService = forumService;
             _userManager = userManager;
+            _mapper = mapper;
         }
 
         public IActionResult Index(int id)
         {
-            var post = _postService.GetById(id);
-            var replies = BuildPostReplies(post.Replies);
+            Post post = _postService.GetById(id);
+            var replies = _mapper.Map<IEnumerable<PostReplyVM>>(post.Replies);
             var vm = new PostIndexVM()
             {
                 Id = post.Id,
@@ -43,20 +45,7 @@ namespace CrimerForum.Controllers
             };
             return View(vm);
         }
-
-        private IEnumerable<PostReplyVM> BuildPostReplies(IEnumerable<PostReply> replies)
-        {
-            return replies.Select(r => new PostReplyVM()
-            {
-                Id = r.Id,
-                AuthorId = r.Author.Id,
-                AuthorName = r.Author.UserName,
-                AuthorImageUrl = r.Author.ProfileImage,
-                AuthorRating = r.Author.Rating,
-                Created = r.CreatedAt,
-                RepliesContent = r.Content
-            });
-        }
+        
         [HttpGet]
         public IActionResult Create(int id)
         {
@@ -70,6 +59,7 @@ namespace CrimerForum.Controllers
             };
             return View(model);
         }
+        
         [HttpPost]
         public async Task<IActionResult> CreatePost(CreatePostVM createPostVM)
         {

@@ -3,53 +3,58 @@
 @inject SignInManager<CrimerForum.Data.Models.ApplicationUser> SignInManager
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = "Вход в аккаунт";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-4">
-        <section>
-            <form id="account" method="post" asp-route-returnurl="@ViewData["ReturnUrl"]">
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="@Model.Username"></label>
-                    <input asp-for="@Model.Username" class="form-control" />
-                    <span asp-validation-for="@Model.Username" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="@Model.Password"></label>
-                    <input asp-for="@Model.Password" class="form-control" />
-                    <span asp-validation-for="@Model.Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label asp-for="@Model.RememberMe">
-                            <input asp-for="@Model.RememberMe" />
-                            @Html.DisplayNameFor(m => m.RememberMe)
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Log in</button>
-                </div>
-                <div class="form-group">
-                    <p>
-                        <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Register as a new user?</a>
-                    </p>
-                </div>
-            </form>
-        </section>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use another service to log in.</h4>
-            <hr />
-            
-        </section>
-    </div>
+<div>
+    <section class="section login-form">
+        <div class="section__header">
+            <h2 class="section__title login-form__title">@ViewData["Title"]</h2>
+        </div>
+        <form class="form login-form__form" id="account" method="post" asp-route-returnurl="@ViewData["ReturnUrl"]">
+            <div asp-validation-summary="All" class="form__error"></div>
+            <div class="form__control login-form__control">
+                <label class="form__label login-form__lable" asp-for="@Model.Username">
+                    Имя
+                </label>
+                <input class="form__input login-form__input"
+                       placeholder="Имя"
+                       asp-for="@Model.Username"
+                       type="text"
+                       id="Username"
+                       name="Username" />
+                <span asp-validation-for="@Model.Username" class="form__error"></span>
+            </div>
+            <div class="form__control login-form__control">
+                <label class="form__label login-form__lable" asp-for="@Model.Password">
+                    Пароль
+                </label>
+                <input class="form__input login-form__input"
+                       placeholder="Пароль"
+                       type="password"
+                       asp-for="@Model.Password"
+                       id="Password"
+                       name="Password" />
+                <span asp-validation-for="@Model.Password" class="form__error"></span>
+            </div>
+            <div class="form__control form__checkbox">
+                <label class="form__lable" asp-for="@Model.RememberMe"></label>
+                <input class="form__input"
+                       type="checkbox"
+                       asp-for="@Model.RememberMe"
+                       name="RememberMe"
+                       id="RememberMe" />
+                @*@Html.DisplayNameFor(m => m.RememberMe)*@
+            </div>
+            <button class="form__submit-btn login-form__submit-btn"
+                    type="submit">
+                Войти
+            </button>
+            <p>
+                <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Нет аккаунта? Давайте создадим</a>
+            </p>
+        </form>
+    </section>
 </div>
 
 @section Scripts {

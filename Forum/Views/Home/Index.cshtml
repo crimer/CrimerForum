@@ -4,55 +4,103 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="container body-content">
-    <div class="row frontSplashScreen">
-        <div class="col-md-6 frontPageLearn">
-            <div class="frontPageHeading">
-                <p>Learn, Collaborate, Share Knowlage</p>
+<div>
+    <section class="section hero">
+        <div class="section__header">
+            <h2 class="section__title hero__title">
+                От разработчиков, для разработчиков
+            </h2>
+        </div>
+        <div class="hero__body">
+            <div class="hero__content">
+                <p class="hero__text">
+                    Мы создаем продукты, которые расширяют возможности разработчиков
+                    и подключают их к решениям, обеспечивающим производительность,
+                    рост и открытие.
+                </p>
             </div>
-            <p class="frontPageSubHeading>
-                Crimer Forum best forum for coding in the world
-            </p>
-            <div>
-                
+            <div class="hero__image">
+                <img src="./assets/img/hero.jpg" alt="" />
             </div>
         </div>
-        <div class="col-md-6"></div>
-    </div>
-    <div class="row frontPageContent">
-        <h3 id="latestPosts">Latest Posts</h3>
-        <table class="table table-hover" id="latestPostsTable">
-            <tbody>
-                @foreach (var post in Model.LatestPosts)
+    </section>
+    <div class="main-content">
+        <section class="section post-items">
+            <div class="section__header">
+                <h2 class="section__title post-items__title">Недавние посты</h2>
+            </div>
+            <div class="post-items__list">
+                @if (Model.IsEmptySearchResult)
                 {
-                    <tr>
-                        <td>
-                            <div class="forumLogo" style="background-image:url(@post.Forum.ImageUrl); background-size: 100%;"></div>
-                            <p>@post.Title</p>
-                            <div class="postTitle">
-                                <a asp-controller="Post" asp-action="Index" asp-route-id="@post.Id"></a>
-                            </div>
-                            <div class="postSubtTtle">
-                                @if (post.RepliesCount == 1)
-                                {
-                                    <span>@post.RepliesCount Reply</span>
-                                }
-                                else if (post.RepliesCount == 0)
-                                {
-                                    <span>No Replies</span>
-                                }
-                                else
-                                {
-                                    <span>@post.RepliesCount Replies</span>
-                                }
-                                <span class="userProfile">
-                                    <a asp-controller="Profile" asp-action="Detail" asp-route-id="@post.AuthorId">@post.AuthorName</a>
-                                </span>
-                            </div>
-                        </td>
-                    </tr>
+                    <p>Мы не нашли постов на запрос "@Model.SearchQuery"</p>
                 }
-            </tbody>
-        </table>
+                @foreach (var post in Model.Posts)
+                {
+
+                    <article class="post-item">
+                        <div class="post-item__content">
+                            <h3 class="post-item__title">
+                                <a asp-controller="Post" asp-action="Index" asp-route-id="@post.Id">@post.Title</a>
+                            </h3>
+                            <p class="post-item__text">
+                                @post.Content
+                            </p>
+
+                            <div class="post-item__tags">
+                                <span class="post-item__tag">c#</span>
+                            </div>
+                            <div class="post-item__footer">
+                                <div class="post-item__author">
+                                    <img src="./assets/img/unknown-user.png"
+                                         alt="unknown-user"/>
+                                    <p class="post-item__author-name">
+                                        @* <a asp-controller="Profile" asp-action="Detail" asp-route-id="@post.AuthorId">@post.AuthorName</a> *@
+                                    </p>
+                                </div>
+                                <div class="post-item__info">
+                                    @if (post.RepliesCount == 1)
+                                    {
+                                        <p class="post-item__replies-count">@post.RepliesCount ответ</p>
+                                    }
+                                    else if (post.RepliesCount == 0)
+                                    {
+                                        <p class="post-item__replies-count">Нет ответов</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="post-item__replies-count">@post.RepliesCount ответов</p>
+                                    }
+                                    @*<span class="post-item__date">20 часов назад</span>*@
+                                    <span class="post-item__date">@post.CreatedAt</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                }
+
+            </div>
+        </section>
+        <div class="section__left">
+            <section class="widgets">
+                <div class="widget widget__search">
+                    <div class="widget__header">
+                        <p class="widget__title">Поиск</p>
+                    </div>
+                    <div class="widget__body">
+                        <form asp-controller="Home" asp-action="Search" method="post" class="widget__search-form">
+                            <input class="widget__search-input"
+                                    type="text"
+                                    asp-for="SearchQuery"
+                                    name="SearchQuery"
+                                    id="SearchQuery"
+                                    placeholder="Поиск..." />
+                            <button class="widget__search-btn" type="submit">
+                                Поиск
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
 </div>

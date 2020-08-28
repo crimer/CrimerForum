@@ -1,24 +1,61 @@
 ﻿@model CrimerForum.VM.Post.PostIndexVM
 
-<h1>@Model.Title</h1>
 
 <div>
-    Author: @Model.AuthorName (@Model.AuthorRating)
-    Created: @Model.DatePosted
-</div>
+	<section class="section post">
+		<header class="post__header">
+			<h2 class="post__title">@Model.Title</h2>
+		</header>
+		<div class="post__content">
+			<p class="post__paragraph">
+				@Model.Content
+			</p>
 
-@if (Model.Replies.Any())
-{
-    foreach (var reply in Model.Replies)
-    {
-    <div>
-        <div>
-            <p>Reply Author: @reply.AuthorName (@reply.AuthorRating)</p>
-            <p>Reply Created: @reply.Created</p>
-        </div>
-        <div>
-            Reply: @reply.RepliesContent
-        </div>
-    </div>
-    }
-}
+			<div class="post-item__footer">
+				<div class="post-item__author">
+					<img class="post-reply__logo"
+						 src="~/assets/img/unknown-user.png"
+						 alt="" />
+					<p class="post-item__author-name">
+						<a>@Model.AuthorName</a>
+					</p>
+				</div>
+				<div class="post__info">
+					<span class="post__replies-count">Ответов: @Model.Replies.Count()</span>
+					<span class="post__date">@Model.DatePosted</span>
+				</div>
+			</div>
+
+		</div>
+		<div class="post__replies">
+
+			@if (Model.Replies.Any())
+			{
+				foreach (var reply in Model.Replies)
+				{
+
+					<div class="post-reply">
+						<div class="post-reply__content">
+							<img class="post-reply__logo"
+								 src="~/assets/img/unknown-user.png"
+								 alt="user image" />
+							<div class="post-reply__body">
+								<h5 class="post-reply__author">@reply.AuthorName</h5>
+								<p class="post-reply__text">
+									@reply.RepliesContent
+								</p>
+								<span class="post-reply__date">@reply.Created</span>
+							</div>
+						</div>
+					</div>
+
+				}
+			}
+			else
+			{
+				<p>Нет ответов</p>
+			}
+
+		</div>
+	</section>
+</div>

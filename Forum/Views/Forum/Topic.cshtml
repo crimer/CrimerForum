@@ -3,43 +3,121 @@
     ViewData["Title"] = @Model.Forum.Title;
 }
 <div>
-    <h1>@Model.Forum.Title</h1>
-    <p>@Model.Forum.Description</p>
-    <div class="image-wrapper">
-        <img src="/images/@Model.Forum.ImageUrl" alt="@Model.Forum.Title - forum " />
-
-    </div>
-    <br />
-    <a class="btn btn-success" asp-action="Create" asp-controller="Post" asp-route-id="@Model.Forum.Id">
-        Создать новый пост
-    </a>
-    <br />
-    @if (!Model.Posts.Any())
-    {
-        <div>
-            <h3>Похоже что на эту тему нет постов</h3>
-            <p>
-                Так почему бы не создать?
+    <section class="section forum-section">
+        <div class="section__header">
+            <h2 class="section__title forum-section__title">ЯП @Model.Forum.Title</h2>
+        </div>
+        <div class="forum-section__info">
+            <img class="forum-section__logo"
+                    src="~/assets/img/forums/@Model.Forum.ImageUrl"
+                    alt="@Model.Forum.Title forum" />
+            @*<p class="forum-section__text">
+                C# (произносится «си шарп») — мультипарадигменный язык
+                программирования, флагманский язык фреймворка .NET. Указывайте в
+                вопросах метку используемой реализации Common Language
+                Infrastructure ([.net], [.net-core], [mono]), если вопрос
+                относится к разработке приложений под эту конкретную реализацию
+                или ее особенностей.
+            </p>*@
+            <p class="forum-section__text">
+                @Model.Forum.Description
             </p>
         </div>
-    }
-    else
-    {
-        <div class="topicsList">
-            <ul class="list-group">
-                @foreach (var post in Model.Posts)
+    </section>
+    <div class="main-content">
+        <section class="section forum-posts">
+            <div class="section__header">
+                <h2 class="section__title forum-posts__title">@Model.Forum.Title - посты</h2>
+                <a class="section__button form__submit-btn" asp-action="Create" asp-controller="Post" asp-route-id="@Model.Forum.Id">Создать пост</a>
+            </div>
+            <div class="forum-posts__list">
+                @if (!Model.Posts.Any())
                 {
-                    <li class="list-group-item">
-                        <h2>
-                            <a asp-controller="Post" asp-action="Index" asp-route-id="@post.Id">@post.Title</a>
-                        </h2>
-                        <p>Автор: @post.AuthorName</p>
-                        <p>Дата создания: @post.CreatedAt</p>
-                        <p>Кометнарии: @post.RepliesCount</p>
-                    </li>
+                    <div>
+                        <h3>Похоже что на эту тему нет постов</h3>
+                        <p>
+                            Так почему бы не создать?
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    @foreach (var post in Model.Posts)
+                    {
+                        <article class="post-item">
+                            <div class="post-item__content">
+                                <h3 class="post-item__title">
+                                    <a asp-controller="Post" asp-action="Index" asp-route-id="@post.Id">
+                                        @post.Title
+                                    </a>
+                                </h3>
+                                <p class="post-item__text">
+                                    @post.Content
+                                </p>
+
+                                <div class="post-item__tags">
+                                    <span class="post-item__tag">c#</span>
+                                </div>
+                                <div class="post-item__footer">
+                                    <div class="post-item__author">
+                                        
+                                        <img src="~/assets/img/unknown-user.png" alt="unknown-user">
+                                        <p class="post-item__author-name">
+                                            <a>@post.AuthorName</a>
+                                        </p>
+                                    </div>
+                                    <div class="post-item__info">
+                                        @if (post.RepliesCount == 1)
+                                        {
+                                            <p class="post-item__replies-count">@post.RepliesCount ответ</p>
+                                        }
+                                        else if (post.RepliesCount == 0)
+                                        {
+                                            <p class="post-item__replies-count">Нет ответов</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="post-item__replies-count">@post.RepliesCount ответов</p>
+                                        }
+                                        <span class="post-item__date">@post.CreatedAt</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    }
                 }
 
-            </ul>
+            </div>
+        </section>
+        <div class="section__left">
+            <section class="widgets">
+                <div class="widget widget__search">
+                    <div class="widget__header">
+                        <p class="widget__title">Поиск</p>
+                    </div>
+                    <div class="widget__body">
+                        <form asp-controller="Forum" asp-action="Search" class="widget__search-form">
+                            <input class="widget__search-input"
+                                    type="text"
+                                    asp-for="SearchQuery"
+                                    id="SearchQuery"
+                                    placeholder="Поиск..." onfocus="clearSearch(this)"/>
+                            <button class="widget__search-btn" type="submit">
+                                Поиск
+                            </button>
+                            <input type="hidden" asp-for="Forum.Id" name="id"/>
+                        </form>
+                    </div>
+                </div>
+            </section>
         </div>
-    }
+
+    </div>
 </div>
+@section Scripts{ 
+    <script>
+        function clearSearch(target) {
+            target.value = "";
+        }
+    </script> 
+}

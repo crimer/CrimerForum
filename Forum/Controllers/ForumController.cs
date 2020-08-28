@@ -26,25 +26,37 @@ namespace CrimerForum.Controllers
                 {
                     Id = forum.Id,
                     Title = forum.Title,
-                    Description = forum.Description
+                    Description = forum.Description,
+                    PostsCount = forum.Posts.Count()
                 });
             var vm = new ForumIndexVM() { ForumList = forums };
             return View(vm);
         }
-        public IActionResult Topic(int id)
+        public IActionResult Topic(int id, string searchQuery)
         {
             var forum = _forumService.GetById(id);
 
             ForumVM forumVM = BuildForumModel(forum);
+            
+            var posts = new List<Post>();
 
-            var posts = _postService.GetPostsByForum(id);
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                posts = _postService.GetFilteredPosts(forum, searchQuery).ToList();
+
+            }
+            else
+            {
+                posts = forum.Posts.ToList();
+
+            }
             var postsTopicVM = posts.Select(p => new PostVM()
             {
                 Id = p.Id,
                 Title = p.Title,
-                AuthorId = p.Author.Id,
-                AuthorName = p.Author.UserName,
-                AuthorRating = p.Author.Rating,
+                //AuthorId = p.Author.Id,
+                //AuthorName = p.Author.UserName,
+                //AuthorRating = p.Author.Rating,
                 CreatedAt = p.CreatedAt,
                 RepliesCount = p.Replies.Count(),
                 Forum = BuildForumModel(p)
@@ -54,6 +66,12 @@ namespace CrimerForum.Controllers
 
             return View(topicVM);
         }
+        [HttpPost]
+        public IActionResult Search(int id, string searchQuery)
+        {
+            return RedirectToAction("Topic", new { id, searchQuery });
+        }
+
         private ForumVM BuildForumModel(Post post)
         {
             var forum = post.Forum;

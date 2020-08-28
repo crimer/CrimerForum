@@ -9,6 +9,7 @@ namespace CrimerForum.Data
         Post GetById(int id);
         IEnumerable<Post> GetAllPosts();
         IEnumerable<Post> GetPostsByForum(int forumId);
+        IEnumerable<Post> GetFilteredPosts(Forum forum, string searchQuery);
         IEnumerable<Post> GetFilteredPosts(string searchQuery);
         IEnumerable<Post> GetLatestPosts(int count);
         Task AddPost(Post post);

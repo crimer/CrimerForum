@@ -6,6 +6,7 @@ namespace CrimerForum.VM.Forum
     public class ForumTopicVM
     {
         public ForumVM Forum { get; set; }
+        public string SearchQuery { get; set; }
         public IEnumerable<PostVM> Posts { get; set; }
     }
 }
