@@ -1,0 +1,37 @@
+﻿@model CrimerForum.VM.ApplicationUser.ProfileAllUsersVM
+@{
+	ViewData["Title"] = "Все пользователи";
+}
+
+<div>
+    <section class="section forums">
+    	<div class="section__header">
+    		<h2 class="section__title forums__title">Все пользователи</h2>
+    	</div>
+    	<div class="table-wrapper">
+    		<table class="table">
+	            <tr class="table__row">
+		            <th class="table__cell">Имя</th>
+		            <th class="table__cell">Почта</th>
+		            <th class="table__cell">Дата регистрации</th>
+		            <th class="table__cell">Кол-во постов</th>
+		            <th class="table__cell">Рэйтинг</th>
+		            <th class="table__cell">Админ?</th>
+	            </tr>
+	            @foreach (var user in Model.AllUsers)
+	            {
+		            <tr class="table__row">
+			            <td class="table__cell">
+				            <a asp-controller="Profile" asp-action="Detail" asp-route-id="@user.UserId" class="forum__link">@user.UserName</a>
+			            </td>
+			            <td class="table__cell">@user.Email</td>
+			            <td class="table__cell">@user.MemberSince</td>
+			            <td class="table__cell">@user.UserPosts.Count()</td>
+			            <td class="table__cell">@user.UserRating</td>
+			            <td class="table__cell">@user.IsAdmin</td>
+		            </tr>
+	            }
+    		</table>
+    	</div>
+    </section>
+</div>

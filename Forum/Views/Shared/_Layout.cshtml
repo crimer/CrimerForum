@@ -22,38 +22,19 @@
                         <li class="nav__item">
                             <a class="nav__link" asp-controller="Home" asp-action="Index">Главная</a>
                         </li>
-                        @if (SiginManager.IsSignedIn(User))
-                        {
-                            <li class="nav__item dropdown">
-                                <button class="dropdown__btn">Настройки</button>
-                                <div class="dropdown__menu">
-                                    <h6 class="dropdown__header">Профиль</h6>
-                                    <a class="dropdown__item" asp-controller="Profile" asp-action="Detail">Мой аккаунт</a>
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        <span class="dropdown__divider"></span>
-
-                                        <h6 class="dropdown__header">Admin</h6>
-                                        <a class="dropdown__item" asp-controller="Forum" asp-action="Create">Создать форум</a>
-                                        <a class="dropdown__item" asp-controller="Profile" asp-action="Index">Все пользователи</a>
-                                    }
-
-                                </div>
-                            </li>
-                        }
                         <li class="nav__item">
                             <a class="nav__link" asp-controller="Forum" asp-action="Index">Форумы</a>
                         </li>
+                        
+
                         @if (SiginManager.IsSignedIn(User))
                         {
                             <li class="nav__item">
-                                <a class="nav__link">Привет @User.Identity.Name</a>
+                                @* <form class="form-inline" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home")"> *@
+                                @*     <button type="submit" class="nav__link ">Выйти</button> *@
+                                     <a class="nav__link" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home")">Выйти</a>
+                                @* </form> *@
                             </li>
-                        <li class="nav__item">
-                            <form class="form-inline" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home")">
-                                <button type="submit" class="nav-link btn btn-link text-dark">Выйти</button>
-                            </form>
-                        </li>
                         }
                         else
                         {
@@ -64,6 +45,23 @@
                                 <a asp-controller="Account" asp-action="Register" class="nav__link">Регистрация</a>
                             </li>
 
+                        }
+                        @if (SiginManager.IsSignedIn(User))
+                        {
+                            <li class="nav__item dropdown">
+                                <button class="dropdown__btn">Настройки</button>
+                                <div class="dropdown__menu">
+                                    <h6 class="dropdown__header">Профиль</h6>
+                                    <a class="dropdown__item" asp-controller="Profile" asp-action="Detail" asp-route-id="@UserManager.GetUserId(User)">Мой аккаунт</a>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <span class="dropdown__divider"></span>
+                                        <h6 class="dropdown__header">Admin</h6>
+                                        <a class="dropdown__item" asp-controller="Forum" asp-action="Create">Создать форум</a>
+                                        <a class="dropdown__item" asp-controller="Profile" asp-action="Index">Все пользователи</a>
+                                    }
+                                </div>
+                            </li>
                         }
                     </ul>
                 </div>
@@ -78,7 +76,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - Forum - 
+            &copy; 2020 - Crimer Forum
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

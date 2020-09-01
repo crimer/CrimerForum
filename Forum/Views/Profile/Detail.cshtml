@@ -1,0 +1,128 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using CrimerForum.Data.Models
+@inject UserManager<ApplicationUser> UserManager
+@model CrimerForum.VM.ApplicationUser.ProfileVM
+@{
+    ViewData["Title"] = "Прифиль";
+}
+<div>
+    <section class="profile-grid">
+    	<div class="profile-grid__left">
+    		<div class="profile-info">
+	            <div class="profile-info__image-wrapper">
+		            @if (Model.UserName == "" || string.IsNullOrEmpty(Model.UserName))
+		            {
+			            <img src="~/assets/img/unknown-user.png" alt="userImage"/>			            
+		            }
+		            else
+		            {
+			            <img src="@Model.UserName" alt="userImage"/>
+		            }
+		            
+	            </div>
+    			<p class="profile-info__username">@Model.UserName</p>
+    			<button id="editProfileBtn"
+    				class="form__submit-btn profile-info__edit-btn" >
+    				Изменить
+    			</button>
+    			<form asp-controller="Profile" asp-action="Edit" method="post"
+    				id="editProfileForm"
+    				class="hide form profile-info__edit-form"
+    			>
+    			<div asp-validation-summary="All" class="form__error"></div>
+    				<div class="form__control">
+    					<label class="form__label" asp-for="@Model.Email">Почта</label>
+    					<input
+    						class="form__input"
+    						placeholder="Почта"
+						    type="email"
+						    asp-for="@Model.Email"
+    						name="Email"
+    					/>
+    					<span asp-validation-for="@Model.Email" class="form__error"></span>
+    				</div>
+    				<div class="form__control">
+    					<label class="form__label" asp-for="@Model.UserName">Имя</label>
+    					<input
+    						class="form__input"
+    						placeholder="Имя"
+						    type="text"
+						    asp-for="@Model.UserName"
+    						id="Username"
+    						name="Username"
+    					/>
+    					<span asp-validation-for="@Model.UserName" class="form__error"></span>
+    				</div>
+    				@* <div class="form__control"> *@
+    				@* 	<label class="form__label" asp-for="">Пароль </label> *@
+    				@* 	<input *@
+    				@* 		class="form__input" *@
+    				@* 		placeholder="Пароль" *@
+    				@* 		type="password" *@
+    				@* 		id="Password" *@
+    				@* 		name="Password" *@
+    				@* 	/> *@
+    				@* 	<span class="form__error"></span> *@
+    				@* </div> *@
+    				@* <div class="form__control"> *@
+    				@* 	<label class="form__lable" for="ConfirmPassword"> *@
+    				@* 		Повторите пароль *@
+    				@* 	</label> *@
+    				@* 	<input *@
+    				@* 		class="form__input" *@
+    				@* 		placeholder="Повторите пароль" *@
+    				@* 		type="password" *@
+    				@* 		id="ConfirmPassword" *@
+    				@* 		name="ConfirmPassword" *@
+    				@* 	/> *@
+    				@* 	<span class="form__error"></span> *@
+    				@* </div> *@
+    				<div class="form__buttons">
+    					<button class="form__submit-btn" type="submit">
+    						Сохранить
+    					</button>
+    					<a asp-controller="Home" asp-action="Index"
+    						id="editProfileFormCancelBtn"
+    						class="form__submit-btn form__cancel-btn" >
+    						Отмена
+    					</a>
+    				</div>
+    			</form>
+    		</div>
+    	</div>
+    	<div class="profile-grid__right">
+	        <div class="post-items__list">
+		        @foreach (var post in Model.UserPosts)
+		        {
+			        <article class="post-item">
+				        <div class="post-item__content">
+					        <h3 class="post-item__title">
+						        <a asp-controller="Post" asp-action="Index" asp-route-id="@post.Id">@post.Title</a>
+					        </h3>
+					        <p class="post-item__text">@post.Content</p>
+					        <div class="post-item__tags">
+						        <span class="post-item__tag">c#</span>
+					        </div>
+					        <div class="post-item__footer">
+						        <div class="post-item__author">
+							        <img
+								        src="~/assets/img/unknown-user.png"
+								        alt="unknown-user"/>
+							        <p class="post-item__author-name">
+								        <a asp-controller="Profile" asp-action="Detail" asp-route-id="@post.AuthorId">@post.AuthorName</a>
+							        </p>
+						        </div>
+						        <div class="post-item__info">
+							        <p class="post-item__replies-count">@post.RepliesCount</p>
+							        <span class="post-item__date">@post.CreatedAt</span>
+						        </div>
+					        </div>
+				        </div>
+			        </article>
+		        }
+		        
+
+	        </div>
+    	</div>
+    </section>
+</div>

@@ -1,0 +1,42 @@
+﻿@model CrimerForum.VM.Forum.CreateForumVM
+
+@{
+    ViewData["Title"] = "Создать форум";
+}
+<div>
+    <section class="section">
+    	<div class="section__header">
+    		<h2 class="section__title">Новый форум</h2>
+    	</div>
+    	<form method="post" asp-controller="Forum" asp-action="Create" class="form">
+    		<div class="form__control">
+    			<label class="form__label" asp-for="@Model.Title"> Название </label>
+    			<input
+    				class="form__input"
+    				placeholder="Название"
+				    type="text"
+				    asp-for="@Model.Title"
+    				name="Title"
+    			/>
+    		</div>
+	        <div class="form__control">
+		        <label class="form__label" asp-for="@Model.Description"> Описание </label>
+		        <textarea
+    				class="form__input"
+    				name="Description"
+					asp-for="@Model.Description"
+    				placeholder="Описание"
+    				cols="30"
+    				rows="10"
+    			></textarea>
+	        </div>
+	        @* TODO: Добавить поле для картинки форума  *@
+    		<div class="form__buttons">
+    			<button class="form__submit-btn" type="submit">Создать</button>
+    			<a asp-controller="Home" asp-action="Index" class="form__submit-btn form__cancel-btn">
+    				Отмена
+    			</a>
+    		</div>
+    	</form>
+    </section>
+</div>

@@ -55,6 +55,11 @@ namespace CrimerForum.Services
                 .FirstOrDefault();
         }
 
+        public IEnumerable<Post> GetPostsByUser(string userId)
+        {
+            return GetAllPosts().Where(p => p.Author.Id == userId);
+        }
+
         public IEnumerable<Post> GetFilteredPosts(Forum forum, string searchQuery)
         {
 

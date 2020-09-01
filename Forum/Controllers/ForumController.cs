@@ -12,7 +12,6 @@ namespace CrimerForum.Controllers
     {
         private readonly IForum _forumService;
         private readonly IPost _postService;
-
         public ForumController(IForum forumService, IPost postService)
         {
             _forumService = forumService;
@@ -71,7 +70,18 @@ namespace CrimerForum.Controllers
         {
             return RedirectToAction("Topic", new { id, searchQuery });
         }
-
+        // GET
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+        // POST
+        // [HttpPost]
+        // public IActionResult Create(CreateForumVM createForumVm)
+        // {
+        //     
+        // }
         private ForumVM BuildForumModel(Post post)
         {
             var forum = post.Forum;
